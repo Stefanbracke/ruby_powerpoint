@@ -52,6 +52,14 @@ module RubyPowerpoint
       title_elements.join(" ") if title_elements.length > 0
     end
 
+    def images_with_filetype
+      image_elements(@relation_xml)
+        .map.each do |node|
+          {extension: File.extname(node["Target"]).split('.').last,stream: @presentation.files.file.open(
+            node['Target'].gsub('..', 'ppt'))}
+        end
+      
+    end
     def images
       image_elements(@relation_xml)
         .map.each do |node|
